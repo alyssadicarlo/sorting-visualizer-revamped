@@ -1,0 +1,29 @@
+.App {
+  text-align: center;
+  background-color: #5CDB95;
+}
+
+.App * {
+  color: #EDF5E1
+}
+
+.column-container {
+  display: flex;
+  justify-content: center;
+  align-items: flex-end;
+  height: 510px;
+}
+
+.column-container div {
+  border: 1px solid #F2FBE0;
+  background-color: #05386B;
+  margin-left: 1px;
+  margin-right: 1px;
+}
+
+button {
+  background-color: #05386B;
+  border: none;
+  padding: 10px;
+  margin: 10px;
+}
