@@ -25,13 +25,17 @@ const reducer = (state, action) => {
             size: action.payload.size
         }
     } else if (action.type === SORT) {
-        switch(action.payload.algorithm) {
-            case 'QUICK_SORT':
-                return state;
-            case 'MERGE_SORT':
-                return state;
-            case 'BUBBLE_SORT':
-                let arr = [...state.array];
+        if (action.payload.algorithm === 'QUICK_SORT') {
+            return state;
+        } else if (action.payload.algorithm === 'MERGE_SORT') {
+            let arr = [...state.array];
+            let sortedArray = mergeSort(arr);
+            return {
+                ...state,
+                array: sortedArray
+            }
+        } else if (action.payload.algorithm === 'BUBBLE_SORT') {
+            let arr = [...state.array];
                 let steps = [];
                 let i, j;
                 let len = arr.length;
@@ -61,12 +65,36 @@ const reducer = (state, action) => {
                     ...state,
                     array: arr
                 }
-            default:
-                return state;
+        } else {
+            return state;
         }
     } else {
         return state;
     }
+}
+
+const merge = (left, right) => {
+    let arr = []
+    while (left.length && right.length) {
+        if (left[0] < right[0]) {
+            arr.push(left.shift())  
+        } else {
+            arr.push(right.shift()) 
+        }
+    }
+    
+    return [ ...arr, ...left, ...right ]
+}
+
+const mergeSort = (array) => {
+    const half = array.length / 2
+    
+    if (array.length < 2){
+        return array 
+    }
+    
+    const left = array.splice(0, half)
+    return merge(mergeSort(left),mergeSort(array))
 }
 
 export default reducer;
