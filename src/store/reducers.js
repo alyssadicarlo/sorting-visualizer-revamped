@@ -4,23 +4,23 @@ const reducer = (state, action) => {
     if (action.type === GENERATE_NEW_ARRAY) {
         let newArray = [];
         for (let i = 0; i < state.size; i++) {
-        const rand = Math.floor(Math.random() * 100);
-        newArray.push(rand);
+            const rand = Math.floor(Math.random() * 100);
+            newArray.push(rand);
         }
         console.log(newArray);
         return {
-            ...state, 
+            ...state,
             array: newArray
         }
     } else if (action.type === UPDATE_SIZE) {
         let newArray = [];
         for (let i = 0; i < action.payload.size; i++) {
-        const rand = Math.floor(Math.random() * 100);
-        newArray.push(rand);
+            const rand = Math.floor(Math.random() * 100);
+            newArray.push(rand);
         }
         console.log(newArray);
         return {
-            ...state, 
+            ...state,
             array: newArray,
             size: action.payload.size
         }
@@ -35,36 +35,36 @@ const reducer = (state, action) => {
                 array: sortedArray
             }
         } else if (action.payload.algorithm === 'BUBBLE_SORT') {
-            let arr = [...state.array];
-                let steps = [];
-                let i, j;
-                let len = arr.length;
-                    
-                let isSwapped = false;
-                    
-                for(i =0; i < len; i++){
-                    
-                    isSwapped = false;
-                    
-                    for(j = 0; j < len; j++){
-                        if(arr[j] > arr[j + 1]){
-                            let temp = arr[j]
-                            arr[j] = arr[j+1];
-                            arr[j+1] = temp;
-                            isSwapped = true;
-                        }
-                        steps.push(arr);
+            let array = [...state.array];
+            let steps = [];
+            let colorSteps = [];
+            let len = array.length;
+            let colors = new Array(len).fill("#A5E5D9");
+            for (let i = 0; i < len; i++) {
+                for (let j = 0; j < len - i - 1; j++) {
+                    if (array[j] > array[j + 1]) {
+                        let temp = array[j];
+                        array[j] = array[j + 1];
+                        array[j + 1] = temp
                     }
-                                        
-                    if(!isSwapped){
-                        break;
-                    }
+                    colors[j] = "gray";
+                    colors[j + 1] = "gray";
+                    steps.push([...array]);
+                    colorSteps.push([...colors]);
+                    colors[j] = "#A5E5D9";
+                    colors[j + 1] = "#A5E5D9";
                 }
-                    
-                return {
-                    ...state,
-                    array: arr
-                }
+                colors[len - i - 1] = "green";
+            }
+            colorSteps[colorSteps.length - 1] = new Array(len).fill("green");
+            
+            console.log(steps)
+            console.log(colorSteps)
+
+            return {
+                ...state,
+                array: array
+            }
         } else {
             return state;
         }
@@ -77,24 +77,24 @@ const merge = (left, right) => {
     let arr = []
     while (left.length && right.length) {
         if (left[0] < right[0]) {
-            arr.push(left.shift())  
+            arr.push(left.shift())
         } else {
-            arr.push(right.shift()) 
+            arr.push(right.shift())
         }
     }
-    
-    return [ ...arr, ...left, ...right ]
+
+    return [...arr, ...left, ...right]
 }
 
 const mergeSort = (array) => {
     const half = array.length / 2
-    
-    if (array.length < 2){
-        return array 
+
+    if (array.length < 2) {
+        return array
     }
-    
+
     const left = array.splice(0, half)
-    return merge(mergeSort(left),mergeSort(array))
+    return merge(mergeSort(left), mergeSort(array))
 }
 
 export default reducer;

@@ -9,6 +9,8 @@ for (let i = 0; i < 25; i++) {
 
 let arr = [...newArray];
 let steps = [];
+let colorSteps = [];
+let colors = new Array(arr.length).fill("white");
 let i, j;
 let len = arr.length;
     
@@ -25,8 +27,15 @@ for(i =0; i < len; i++) {
             arr[j+1] = temp;
             isSwapped = true;
         }
+        colors[j] = "gray";
+        colors[j+1] = "gray";
         steps.push(arr);
+        colorSteps.push(colors);
+        colors[j] = "white";
+        colors[j+1] = "white";
     }
+    colors[len - i - 1] = "green";
+    colorSteps[-1] = colors;
                         
     if(!isSwapped){
         break;
